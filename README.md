@@ -77,8 +77,7 @@ Finalny rezultat:
 1. Oblicz pochodne sieci neuronowej o następującej architekturze:
 
 * Wejście: 2 cechy -> [x1, x2]  
-* Pierwsza warstwa ukryta: 2 neurony + ReLU 
-* Druga warstwa ukryta: 1 neuron + ReLU
+* Warstwa ukryta: 2 neurony + ReLU 
 * Wyjście: 1 neuron -> y
 * Funkcja straty: Mean Squared Error
 * Jedna obserwacja wejściowa [x1, x2] -> [2, 3], y -> 5
@@ -88,3 +87,4 @@ Finalny rezultat:
 * Dla jakich rodzajów zadań warto rozpatrzyć użycie sieci neuronowej. Dlaczego nie można napisać ręcznie programu do predykcji wartości?
 * W jakim celu używane są funkcje aktywacji? Co się stanie jeśli w sieci o wielu warstwach ukrytych pozbędziemy się funkcji aktywacji?
 * Wyjaśnij rolę dropout'u w trenowaniu sieci neuronowych.
+
