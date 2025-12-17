@@ -6,13 +6,19 @@ class NeuralNetwork(nn.Module):
     
     def __init__(self) -> None:
         super(NeuralNetwork, self).__init__()
-        self.net = nn.Sequential(
-            nn.Linear(7, 8),
+        self.net = nn.Sequential
+        (
+            nn.Linear(7, 128),
             nn.ReLU(),
-            nn.Linear(8, 4),
+            nn.Dropout(0.3),
+
+            nn.Linear(128, 64),
             nn.ReLU(),
-            nn.Linear(4, 1)
+            nn.Dropout(0.3),
+
+            nn.Linear(64, 1)
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.net(x)
+
