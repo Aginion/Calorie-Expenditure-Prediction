@@ -3,10 +3,12 @@ import torch.nn as nn
 
 
 class RMSLELoss(nn.Module):
-
     def __init__(self) -> None:
         super().__init__()
         self.mse = nn.MSELoss()
-        
+        self.epsilon = 1e-6
+
     def forward(self, pred: torch.Tensor, actual: torch.Tensor) -> torch.Tensor:
+        pred = torch.clamp(pred, min=self.epsilon)
+        actual = torch.clamp(actual, min=self.epsilon)
         return torch.sqrt(self.mse(torch.log(pred + 1), torch.log(actual + 1)))
