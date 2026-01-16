@@ -15,34 +15,54 @@
 Wszystkie wagi $W$ i biasy $b$ są zainicjalizowane zerami.
 
 #### 1. Forward Pass
-$$
-\begin{aligned}
+
+$$\begin{aligned}
 z_1 &= W_1 x + b_1 = \vec{0} \\
 a_1 &= \text{ReLU}(z_1) = [0, 0]^T \\
 z_2 &= W_2 a_1 + b_2 = 0 \\
-\hat{y} &= 0
-\end{aligned}
+\hat{y} &= 0 
+\end{aligned}$$
+
+**Koszt (Loss):**
 $$
-**Koszt (Loss):** $L = (0 - 5)^2 = 25$
+L = (0 - 5)^2 = 25
+$$
 
 #### 2. Backward Pass
+
 Obliczamy gradienty:
-* Pochodna błędu: $\frac{\partial L}{\partial \hat{y}} = 2(\hat{y} - y) = -10$
-* Warstwa wyjściowa:
-    * $\frac{\partial L}{\partial b_2} = -10$
-    * $\frac{\partial L}{\partial W_2} = -10 \cdot a_1^T = [0, 0]$
-* Warstwa ukryta:
-    * $\delta_1 = (W_2^T \cdot \text{grad}) \odot \text{ReLU}'(z_1) = 0$
-    * $\frac{\partial L}{\partial W_1} = [[0, 0], [0, 0]]$
+
+**Pochodna błędu:**
+$$
+\frac{\partial L}{\partial \hat{y}} = 2(\hat{y} - y) = -10
+$$
+
+**Warstwa wyjściowa:**
+$$
+\begin{aligned}
+\frac{\partial L}{\partial b_2} &= -10 \\
+\frac{\partial L}{\partial W_2} &= -10 \cdot a_1^T = [0, 0]
+\end{aligned}
+$$
+
+**Warstwa ukryta:**
+$$
+\begin{aligned}
+\delta_1 &= (W_2^T \cdot \text{grad}) \odot \text{ReLU}'(z_1) = 0 \\
+\frac{\partial L}{\partial W_1} &= \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}
+\end{aligned}
+$$
 
 > **Wniosek:** Sieć **nie uczy się**. Jedynym niezerowym gradientem jest bias wyjściowy $b_2$. Wagi $W$ pozostają zerami (problem martwych neuronów).
 
 ---
 
 ### Przypadek B: Inicjalizacja parametrami 1.0
+
 Wszystkie wagi $W$ i biasy $b$ są zainicjalizowane jedynkami.
 
 #### 1. Forward Pass
+
 $$
 \begin{aligned}
 z_1 &= \begin{bmatrix}1 & 1 \\ 1 & 1\end{bmatrix} \begin{bmatrix}2 \\ 3\end{bmatrix} + \begin{bmatrix}1 \\ 1\end{bmatrix} = \begin{bmatrix}6 \\ 6\end{bmatrix} \\
@@ -51,29 +71,44 @@ z_2 &= [1, 1] \cdot [6, 6]^T + 1 = 13 \\
 \hat{y} &= 13
 \end{aligned}
 $$
-**Koszt (Loss):** $L = (13 - 5)^2 = 64$
+
+**Koszt (Loss):** $$L = (13 - 5)^2 = 64$$
 
 #### 2. Backward Pass
-Pochodna błędu: $\frac{\partial L}{\partial \hat{y}} = 2(13 - 5) = 16$
+
+**Pochodna błędu:**
+$$
+\frac{\partial L}{\partial \hat{y}} = 2(13 - 5) = 16
+$$
 
 **Warstwa wyjściowa ($W_2, b_2$):**
+
 $$
 \frac{\partial L}{\partial b_2} = 16
 $$
+
 $$
 \frac{\partial L}{\partial W_2} = 16 \cdot [6, 6] = [96, 96]
 $$
 
 **Warstwa ukryta ($W_1, b_1$):**
+
 Pochodna ReLU dla wartości dodatnich to 1.
+
 $$
 \delta_1 = (W_2^T \cdot 16) \odot [1, 1]^T = [16, 16]^T
 $$
+
 $$
 \frac{\partial L}{\partial b_1} = [16, 16]^T
 $$
+
 $$
-\frac{\partial L}{\partial W_1} = \delta_1 \cdot x^T = \begin{bmatrix}16 \\ 16\end{bmatrix} \cdot [2, 3] = \begin{bmatrix}32 & 48 \\ 32 & 48\end{bmatrix}
+\frac{\partial L}{\partial W_1} = \delta_1 \cdot x^T
+$$
+
+$$
+\frac{\partial L}{\partial W_1} = \begin{bmatrix} 16 \\ 16 \end{bmatrix} \cdot [2, 3] = \begin{bmatrix} 32 & 48 \\ 32 & 48 \end{bmatrix}
 $$
 
 > **Wniosek:** Sieć się uczy (gradienty są niezerowe), ale występuje **problem symetrii**. Oba neurony ukryte mają identyczne gradienty, więc będą uczyć się dokładnie tej samej funkcji. Wymagana jest losowa inicjalizacja.
